@@ -33,10 +33,11 @@ while True:
 	else:
 		enemyAddTime += 1
 
-	player.shoot(WINDOWWIDTH, WINDOWHEIGHT)
+	player.shoot()
 
 	for proj in player.projectiles[:]:
 		pygame.draw.rect(windowSurface, WHITE, proj.model)
+		proj.move()
 
 	for enemy in enemies[:]:
 		pygame.draw.rect(windowSurface, RED, enemy.model)

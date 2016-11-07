@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from Projectile import Projectile
 from pygame.locals import *
 
@@ -18,12 +18,27 @@ class Player:
 	moveUp = False
 	moveDown = False
 
+	mousePos = (0, 0)
+
 	def __init__(s): ()
 
-	def shoot(s, windowWidth, windowHeight):
+	def shoot(s):
 		if s.shot:
+			x = s.mousePos[0]
+			y = s.mousePos[1]
+
+			xDist = x - s.playerModel.centerx
+			yDist = y - s.playerModel.centery
+
+			distance = math.sqrt(((xDist) ** 2) + ((yDist) ** 2))
+
+			xSpeed = Projectile.PROJECTILESPEED * (xDist / distance)
+			ySpeed = Projectile.PROJECTILESPEED * (yDist / distance)
+			
+
+			s.projectiles.append(Projectile(xSpeed, ySpeed, s.playerModel.center))
+
 			s.shot = False
-			s.projectiles.append(Projectile(s.projectileDirection, s.playerModel.center))
 
 	def checkProjectileCollision(s, enemies, windowWidth, windowHeight):
 		for proj in s.projectiles[:]:
@@ -55,8 +70,10 @@ class Player:
 				s.moveUp = False
 				s.moveDown = True
 				s.projectileDirection = 'down'
-			if event.key == K_SPACE:
-				s.shot = True
+			
+		if event.type == MOUSEBUTTONDOWN:
+			s.shot = True
+			s.mousePos = pygame.mouse.get_pos()
 
 		if event.type == KEYUP:
 			if event.key == K_LEFT:
