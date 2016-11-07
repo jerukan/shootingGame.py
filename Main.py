@@ -15,7 +15,7 @@ RED = (255, 0, 0)
 player = Player.Player()
 
 enemies = []
-ENEMYADDRATE = 70
+ENEMYADDRATE = 50
 enemyAddTime = 0
 
 while True:
