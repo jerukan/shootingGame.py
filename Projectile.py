@@ -3,18 +3,13 @@ from pygame.locals import *
 
 class Projectile:
 
-	PROJECTILESPEED = 11
+	PROJECTILESPEED = 8
 
-	def __init__(s, direction, center):
-		s.direction = direction
+	def __init__(s, xSpeed, ySpeed, center):
+		s.xSpeed = xSpeed
+		s.ySpeed = ySpeed
 		s.model = pygame.Rect((center), (10, 10))
 
 	def move(s):
-		if s.direction == 'up':
-			s.model.top -= s.PROJECTILESPEED
-		if s.direction == 'down':
-			s.model.top += s.PROJECTILESPEED
-		if s.direction == 'right':
-			s.model.right += s.PROJECTILESPEED
-		if s.direction == 'left':
-			s.model.right -= s.PROJECTILESPEED
+		s.model.centerx += s.xSpeed
+		s.model.centery += s.ySpeed

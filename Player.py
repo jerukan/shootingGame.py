@@ -1,4 +1,4 @@
-import pygame
+import pygame, math
 from Projectile import Projectile
 from pygame.locals import *
 
@@ -11,19 +11,38 @@ class Player:
 	shot = False
 	projectiles = []
 
-	projectileDirection = 'up'
-
 	moveLeft = False
 	moveRight = False
 	moveUp = False
 	moveDown = False
 
+	mousePos = (0, 0)
+
 	def __init__(s): ()
 
-	def shoot(s, windowWidth, windowHeight):
+	def shoot(s):
 		if s.shot:
+			mousePos = pygame.mouse.get_pos()
+
+			x = mousePos[0]
+			y = mousePos[1]
+
+			xDist = x - s.playerModel.centerx
+			yDist = y - s.playerModel.centery
+
+			if xDist == 0 or yDist == 0:
+				return
+
+			distance = math.sqrt(((xDist) ** 2) + ((yDist) ** 2))
+
+			xSpeed = Projectile.PROJECTILESPEED * (xDist / distance)
+			ySpeed = Projectile.PROJECTILESPEED * (yDist / distance)
+			
+
+			s.projectiles.append(Projectile(xSpeed, ySpeed, s.playerModel.center))
+
+			#comment to make full auto
 			s.shot = False
-			s.projectiles.append(Projectile(s.projectileDirection, s.playerModel.center))
 
 	def checkProjectileCollision(s, enemies, windowWidth, windowHeight):
 		for proj in s.projectiles[:]:
@@ -39,36 +58,34 @@ class Player:
 
 	def getInput(s, event):
 		if event.type == KEYDOWN:
-			if event.key == K_LEFT:
+			if event.key == K_a:
 				s.moveRight = False
 				s.moveLeft = True
-				s.projectileDirection = 'left'
-			if event.key == K_RIGHT:
+			if event.key == K_d:
 				s.moveRight = True
 				s.moveLeft = False
-				s.projectileDirection = 'right'
-			if event.key == K_UP:
+			if event.key == K_w:
 				s.moveUp = True
 				s.moveDown = False
-				s.projectileDirection = 'up'
-			if event.key == K_DOWN:
+			if event.key == K_s:
 				s.moveUp = False
 				s.moveDown = True
-				s.projectileDirection = 'down'
-			if event.key == K_SPACE:
-				s.shot = True
-
+		
 		if event.type == KEYUP:
-			if event.key == K_LEFT:
+			if event.key == K_a:
 				s.moveLeft = False
-			if event.key == K_RIGHT:
+			if event.key == K_d:
 				s.moveRight = False
-			if event.key == K_UP:
+			if event.key == K_w:
 				s.moveUp = False
-			if event.key == K_DOWN:
+			if event.key == K_s:
 				s.moveDown = False
-			if event.key == K_SPACE:
-				s.shot = False
+
+		if event.type == MOUSEBUTTONDOWN:
+			s.shot = True
+		if event.type == MOUSEBUTTONUP:
+			s.shot = False
+
 
 	def movePlayer(s, windHeight, windWidth):
 		model = s.playerModel
