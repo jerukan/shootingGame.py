@@ -1,3 +1,3 @@
 shootingGame.py
 
-A simple pygame program where a square shoots more squares.
+A simple pygame program where a square shoots more squares with squares.
