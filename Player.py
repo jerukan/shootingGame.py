@@ -53,6 +53,7 @@ class Player:
 			for enemy in enemies[:]:
 				if proj.model.colliderect(enemy.model):
 					enemies.remove(enemy)
+					s.projectiles.remove(proj)
 
 			proj.move()
 

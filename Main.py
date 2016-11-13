@@ -7,6 +7,7 @@ mainClock = pygame.time.Clock()
 WINDOWWIDTH = 400
 WINDOWHEIGHT = 400
 windowSurface = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT), 0, 32)
+pygame.display.set_caption('shoot squares')
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
