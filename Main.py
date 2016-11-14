@@ -19,38 +19,48 @@ enemies = []
 ENEMYADDRATE = 50
 enemyAddTime = 0
 
-while True:
-	for event in pygame.event.get():
-		if event.type == QUIT:
-			pygame.quit()
-			sys.exit()
-		player.getInput(event)
+#pygame.mixer.music.load('Yee.mid')
+#pygame.mixer.music.play(-1, 0.0)
 
-	windowSurface.fill(BLACK)
+def main():
 
-	if enemyAddTime == ENEMYADDRATE:
-		enemyAddTime = 0
-		enemies.append(Enemy.Enemy(random.randint(0, WINDOWWIDTH - 40), random.randint(0, WINDOWHEIGHT - 40)))
-	else:
-		enemyAddTime += 1
+	global enemyAddTime
 
-	player.shoot()
+	while True:
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				#pygame.mixer.music.stop()
+				pygame.quit()
+				sys.exit()
+			player.getInput(event)
 
-	for proj in player.projectiles[:]:
-		pygame.draw.rect(windowSurface, WHITE, proj.model)
-		proj.move()
+		windowSurface.fill(BLACK)
 
-	for enemy in enemies[:]:
-		pygame.draw.rect(windowSurface, RED, enemy.model)
-	
-	player.checkProjectileCollision(enemies, WINDOWHEIGHT, WINDOWWIDTH)
+		if enemyAddTime == ENEMYADDRATE:
+			enemyAddTime = 0
+			enemies.append(Enemy.Enemy(random.randint(0, WINDOWWIDTH - 40), random.randint(0, WINDOWHEIGHT - 40)))
+		else:
+			enemyAddTime += 1
 
-	player.movePlayer(WINDOWHEIGHT, WINDOWWIDTH)
-	pygame.draw.rect(windowSurface, WHITE, player.playerModel)
+		player.shoot()
 
-	pygame.display.update()
-	mainClock.tick(40)
+		for proj in player.projectiles[:]:
+			pygame.draw.rect(windowSurface, WHITE, proj.model)
+			proj.move()
 
+		for enemy in enemies[:]:
+			pygame.draw.rect(windowSurface, RED, enemy.model)
+		
+		player.checkProjectileCollision(enemies, WINDOWHEIGHT, WINDOWWIDTH)
+
+		player.movePlayer(WINDOWHEIGHT, WINDOWWIDTH)
+		pygame.draw.rect(windowSurface, WHITE, player.playerModel)
+
+		pygame.display.update()
+		mainClock.tick(50)
+
+if __name__ == '__main__':
+	main()
 
 
 
