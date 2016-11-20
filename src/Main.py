@@ -19,9 +19,6 @@ enemies = []
 ENEMYADDRATE = 50
 enemyAddTime = 0
 
-#pygame.mixer.music.load('Yee.mid')
-#pygame.mixer.music.play(-1, 0.0)
-
 def main():
 
 	global enemyAddTime
