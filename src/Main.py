@@ -1,4 +1,4 @@
-import pygame, sys, Player, Projectile, Enemy, random
+import pygame, sys, Player, Enemy, random
 from pygame.locals import *
 
 pygame.init()
@@ -19,45 +19,42 @@ enemies = []
 ENEMYADDRATE = 50
 enemyAddTime = 0
 
+
 def main():
+    global enemyAddTime
 
-	global enemyAddTime
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            player.getInput(event)
 
-	while True:
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				#pygame.mixer.music.stop()
-				pygame.quit()
-				sys.exit()
-			player.getInput(event)
+        windowSurface.fill(BLACK)
 
-		windowSurface.fill(BLACK)
+        if enemyAddTime == ENEMYADDRATE:
+            enemyAddTime = 0
+            enemies.append(Enemy.Enemy(random.randint(0, WINDOWWIDTH - 40), random.randint(0, WINDOWHEIGHT - 40)))
+        else:
+            enemyAddTime += 1
 
-		if enemyAddTime == ENEMYADDRATE:
-			enemyAddTime = 0
-			enemies.append(Enemy.Enemy(random.randint(0, WINDOWWIDTH - 40), random.randint(0, WINDOWHEIGHT - 40)))
-		else:
-			enemyAddTime += 1
+        player.shoot()
 
-		player.shoot()
+        for proj in player.projectiles[:]:
+            pygame.draw.rect(windowSurface, WHITE, proj.model)
+            proj.move()
 
-		for proj in player.projectiles[:]:
-			pygame.draw.rect(windowSurface, WHITE, proj.model)
-			proj.move()
+        for enemy in enemies[:]:
+            pygame.draw.rect(windowSurface, RED, enemy.model)
 
-		for enemy in enemies[:]:
-			pygame.draw.rect(windowSurface, RED, enemy.model)
-		
-		player.checkProjectileCollision(enemies, WINDOWHEIGHT, WINDOWWIDTH)
+        player.checkProjectileCollision(enemies, WINDOWHEIGHT, WINDOWWIDTH)
 
-		player.movePlayer(WINDOWHEIGHT, WINDOWWIDTH)
-		pygame.draw.rect(windowSurface, WHITE, player.playerModel)
+        player.movePlayer(WINDOWHEIGHT, WINDOWWIDTH)
+        pygame.draw.rect(windowSurface, WHITE, player.playerModel)
 
-		pygame.display.update()
-		mainClock.tick(50)
+        pygame.display.update()
+        mainClock.tick(50)
+
 
 if __name__ == '__main__':
-	main()
-
-
-
+    main()

@@ -18,8 +18,7 @@ class Player:
 
     mousePos = (0, 0)
 
-    def __init__(s):
-        ()
+    def __init__(s): ()
 
     def shoot(s):
         if s.shot:
